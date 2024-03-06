@@ -1,0 +1,24 @@
+{
+  "name": "cd_coords",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cd_coords.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RulezKT/cd_coords.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RulezKT/cd_coords/issues"
+  },
+  "homepage": "https://github.com/RulezKT/cd_coords#readme",
+  "dependencies": {
+    "cd_consts": "github:RulezKT/cd_consts",
+    "cd_eps": "github:RulezKT/cd_eps",
+    "cd_math": "github:RulezKT/cd_math"
+  }
+}
