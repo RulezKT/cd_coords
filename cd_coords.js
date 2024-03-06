@@ -102,7 +102,7 @@ function cart_to_polar_with_speed(ecl) {
     );
 
     // let temp_ecl = {x: ecl.velocity_x, y: ecl.velocity_y, z: ecl.velocity_z};
-    const temp_polar = this.cart_to_polar({
+    const temp_polar = cart_to_polar({
       x: ecl.velocity_x,
       y: ecl.velocity_y,
       z: ecl.velocity_z,
@@ -116,7 +116,7 @@ function cart_to_polar_with_speed(ecl) {
   /* zero speed */
   if (ecl.velocity_x == 0 && ecl.velocity_y == 0 && ecl.velocity_z == 0) {
     ecl_polar.velocity_x = ecl_polar.velocity_y = ecl_polar.velocity_z = 0;
-    const temp_polar = this.cart_to_polar(ecl);
+    const temp_polar = cart_to_polar(ecl);
     ecl_polar.longitude = temp_polar.longitude;
     ecl_polar.latitude = temp_polar.latitude;
     ecl_polar.radius = temp_polar.radius;
