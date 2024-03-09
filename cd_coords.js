@@ -5,6 +5,8 @@ const { PI } = require("cd_consts");
 // conversion of equatorial to ecliptical cartesian coordinates
 function equ_to_ecl(equ, sec_from_jd2000) {
   const eps = find_eps(sec_from_jd2000);
+  const math_sin_eps = Math.sin(eps);
+  const math_cos_eps = Math.cos(eps);
 
   const ecl = {};
 
@@ -13,9 +15,9 @@ function equ_to_ecl(equ, sec_from_jd2000) {
 
   // pp[1] - координата y
   // pp[2] - координата z
-  ecl.y = equ.y * Math.cos(eps) + equ.z * Math.sin(eps);
+  ecl.y = equ.y * math_cos_eps + equ.z * math_sin_eps;
 
-  ecl.z = -equ.y * Math.sin(eps) + equ.z * Math.cos(eps);
+  ecl.z = -equ.y * math_sin_eps + equ.z * math_cos_eps;
 
   // то же самое делаем для скорости
   ecl.velocity_x = equ.velocity_x;
@@ -192,6 +194,44 @@ function cart_to_polar_with_speed(ecl) {
     );
     */
   return ecl_polar;
+}
+
+// conversion of equatorial to ecliptical cartesian coordinates
+function equ_to_ecl_experimental(equ, sec_from_jd2000) {
+  // cos = from 1 to PI/6 (0.5235987755982988) (0 to 30 degrees)
+  // sin = from 0 to 1/2 (0.5) (0 to 30 degrees)
+
+  const eps_0_sec = 0.4090926006005825565914;
+  const eps_in_1_sec = -0.0000000000000719475504;
+
+  const eps = eps_0_sec + sec_from_jd2000 * eps_in_1_sec;
+  const math_sin_eps = Math.sin(eps);
+  const math_cos_eps = Math.cos(eps);
+
+  const ecl = {};
+
+  // переводим в эклиптические прямоугольные (декартовы координаты) из экваториальных
+  ecl.x = equ.x;
+
+  // pp[1] - координата y
+  // pp[2] - координата z
+  ecl.y = equ.y * math_cos_eps + equ.z * math_sin_eps;
+
+  ecl.z = -equ.y * math_sin_eps + equ.z * math_cos_eps;
+
+  // то же самое делаем для скорости
+  ecl.velocity_x = equ.velocity_x;
+
+  ecl.velocity_y =
+    equ.velocity_y * Math.cos(eps) + equ.velocity_z * Math.sin(eps);
+
+  ecl.velocity_z =
+    -equ.velocity_y * Math.sin(eps) + equ.velocity_z * Math.cos(eps);
+
+  //console.log(`eps = ${eps}`);
+  //console.log(`from equ_to_ecl equ x = ${equ.x} y = ${equ.y} z = ${equ.z}`);
+  //console.log(`from equ_to_ecl ecl x = ${ecl.x} y = ${ecl.y} z = ${ecl.z}`);
+  return ecl;
 }
 
 module.exports = {
